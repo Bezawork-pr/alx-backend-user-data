@@ -1,4 +1,5 @@
-# <pre> Basic authentication </pre# Simple API
+# <pre> Basic authentication </pre>
+#Simple API
 
 Simple HTTP API for playing with `User` model.
 
