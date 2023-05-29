@@ -10,3 +10,11 @@ def hash_password(password: str) -> bytes:
     salt = bcrypt.gensalt()
     hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
     return hashed
+
+
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """Use bcrypt to validate that the provided
+    password matches the hashed password"""
+    if bcrypt.checkpw(password.encode('utf-8'), hashed_password):
+        return True
+    return False
