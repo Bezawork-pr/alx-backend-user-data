@@ -32,8 +32,9 @@ def filter_datum(fields: List[str], redaction: str, message: str,
                  separator: str) -> str:
     """Obfuscate log message with the redaction given"""
     for field in fields:
-        message = re.sub(f'{field}=.+?{separator}',
-                         f'{field}={redaction}{separator}', message)
+        if field in PII_FIELDS:
+            message = re.sub(f'{field}=.+?{separator}',
+                             f'{field}={redaction}{separator}', message)
     return message
 
 
@@ -56,3 +57,32 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     password = os.environ.get('PERSONAL_DATA_DB_PASSWORD', "")
     return mysql.connector.connect(host=host, database=database,
                                    user=user, password=password)
+
+
+def main():
+    """Read and filter data"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    field_name = [i[0] for i in cursor.description]
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    handler = logging.StreamHandler()
+    for row in cursor:
+        handler.setFormatter(RedactingFormatter(field_name))
+        logger.addHandler(handler)
+        message = f"name={row[0]};" + \
+                  f"email={row[1]};" + \
+                  f"phone={row[2]};" + \
+                  f"snn={row[3]};" + \
+                  f"password={row[4]};" + \
+                  f"ip={row[5]};" + \
+                  f"last_login={row[6]};" f"user_agent={row[7]};"
+        logger.info(message)
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
