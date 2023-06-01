@@ -20,6 +20,8 @@ if AUTH_TYPE == "auth":
     auth = Auth()
 elif AUTH_TYPE == "basic_auth":
     auth = BasicAuth()
+elif AUTH_TYPE == "session_auth":
+    auth = SessionAuth()
 
 
 @app.errorhandler(404)
@@ -56,7 +58,8 @@ def filterrequest() -> str:
     if auth.current_user(request) is None:
         abort(403)
     request.current_user = auth.current_user(request)
-    
+
+
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
