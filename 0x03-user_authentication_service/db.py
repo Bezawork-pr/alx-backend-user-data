@@ -2,10 +2,12 @@
 """
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Query
 from sqlalchemy.orm.session import Session
-
+from sqlalchemy.orm.exc import NoResultFound
 from user import Base, User
+from sqlalchemy.sql import text
+from sqlalchemy.exc import InvalidRequestError
 
 
 class DB:
@@ -30,8 +32,17 @@ class DB:
         return self.__session
 
     def add_user(self, email: str, hashed_password: str):
-        """"""
+        """Add user"""
         _user = User(email=email, hashed_password=hashed_password)
         self._session.add(_user)
         self._session.commit()
         return _user
+
+    def find_user_by(self,**kwargs):
+        """Find user by"""
+        if kwargs is None:
+            raise InvalidRequestError
+        user = self._session.query(User).filter_by(**kwargs).first()
+        if user is None:
+            raise NoResultFound
+        return user
