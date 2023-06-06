@@ -31,14 +31,14 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Add user"""
         _user = User(email=email, hashed_password=hashed_password)
         self._session.add(_user)
         self._session.commit()
         return _user
 
-    def find_user_by(self,**kwargs):
+    def find_user_by(self,**kwargs) -> User:
         """Find user by"""
         if kwargs is None:
             raise InvalidRequestError
