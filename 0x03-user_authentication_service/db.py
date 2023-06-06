@@ -6,9 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Query
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
-from user import Base, User
 from sqlalchemy.sql import text
 from sqlalchemy.exc import InvalidRequestError
+
+
+from user import Base, User
 
 
 class DB:
@@ -24,7 +26,7 @@ class DB:
         self.__session = None
 
     @property
-    def _session(self):
+    def _session(self) -> Session:
         """Memoized session object
         """
         if self.__session is None:
