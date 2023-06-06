@@ -51,3 +51,15 @@ class DB:
         if user is None:
             raise NoResultFound
         return user
+
+    def update_user(self, user_id: int, **kwargs) -> None:
+        """method will use find_user_by to locate the user to update
+        then Update"""
+        user = self.find_user_by(id=user_id)
+        ur_c = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
+        for key, value in kwargs.items():
+            if key not in ur_c:
+                raise ValueError
+            else:
+                user.key = value
+        return None
