@@ -64,4 +64,5 @@ class DB:
                 raise ValueError
             else:
                 user.key = value
+                self._session.commit()
         return None
