@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """DB module
 """
 from sqlalchemy import create_engine
@@ -38,7 +39,7 @@ class DB:
         self._session.commit()
         return _user
 
-    def find_user_by(self,**kwargs) -> User:
+    def find_user_by(self, **kwargs) -> User:
         """Find user by"""
         if kwargs is None:
             raise InvalidRequestError
