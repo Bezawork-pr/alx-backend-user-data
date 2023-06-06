@@ -40,9 +40,13 @@ class DB:
         return _user
 
     def find_user_by(self, **kwargs) -> User:
-        """Find user by"""
+        """Find user by arg passed"""
         if kwargs is None:
             raise InvalidRequestError
+        user_c = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
+        for arg in kwargs:
+            if arg not in user_c:
+                raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
