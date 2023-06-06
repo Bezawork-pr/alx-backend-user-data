@@ -9,21 +9,25 @@ app = Flask(__name__)
 
 
 @app.route('/')
-def index():
+def index() -> object:
     """Index"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users() -> object:
     """Users"""
     email = request.form.get('email')
     password = request.form.get('password')
+    if email is None:
+        return jsonify({"message": "email required"}), 400
+    if password is None:
+        return jsonify({"message": "password required"}), 400
     try:
         AUTH.register_user(email=email, password=password)
     except Exception as Error:
         return jsonify({"message": "email already registered"}), 400
-    return jsonify({"email": email, "message": "user created"}), 200
+    return jsonify({"email": email, "message": "user created"})
 
 
 if __name__ == "__main__":
