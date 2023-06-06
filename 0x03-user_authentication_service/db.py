@@ -43,9 +43,9 @@ class DB:
         """Find user by arg passed"""
         if kwargs is None:
             raise InvalidRequestError
-        user_c = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
+        ur_c = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
         for arg in kwargs:
-            if arg not in user_c:
+            if arg not in ur_c:
                 raise InvalidRequestError
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
