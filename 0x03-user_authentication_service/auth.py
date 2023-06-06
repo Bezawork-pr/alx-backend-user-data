@@ -29,7 +29,7 @@ class Auth:
             self._db.find_user_by(email=email)
         except Exception as NewUser:
             hashed_password = _hash_password(password)
-            user = self._db.add_user(email=email, hashed_password=hashed_password)
+            user = self._db.add_user(email, hashed_password)
             return user
         else:
             raise ValueError(f"User {email} already exists")
