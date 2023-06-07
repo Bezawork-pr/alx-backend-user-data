@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Create a Flask app that has a single GET route ("/")"""
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
@@ -45,6 +45,21 @@ def login() -> str:
         return response
     else:
         abort(401)
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout() -> str:
+    """implement a logout function to
+    respond to the DELETE /sessions route"""
+    session_id = request.form.get('session_id')
+    if session_id is None:
+        abort(403)
+    try:
+        user = AUTH.get_user_from_session_id(session_id=session_id)
+    except Exception as UserNotFound:
+        abort(403)
+    AUTH.destroy_session(user_id=user.id)
+    return redirect('/')
 
 
 if __name__ == "__main__":
