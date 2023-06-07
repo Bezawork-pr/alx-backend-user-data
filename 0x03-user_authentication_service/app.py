@@ -39,8 +39,10 @@ def login() -> object:
     if email is None or password is None:
         abort(401)
     if AUTH.valid_login(email, password) is True:
-        AUTH.create_session(email)
-        return jsonify({"email": email, "message": "logged in"})
+        session_id = AUTH.create_session(email)
+        response = jsonify({"email": email, "message": "logged in"})
+        response.set_cookie('session_id', session_id)
+        return response
     else:
         abort(401)
 
