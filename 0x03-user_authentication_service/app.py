@@ -31,13 +31,13 @@ def users() -> object:
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login() -> object:
+def login() -> str:
     """implement a login function to respond
     to the POST /sessions route"""
     email = request.form.get('email')
     password = request.form.get('password')
     if email is None or password is None:
-        abort(401)
+        abort(400)
     if AUTH.valid_login(email, password) is True:
         session_id = AUTH.create_session(email)
         response = jsonify({"email": email, "message": "logged in"})
