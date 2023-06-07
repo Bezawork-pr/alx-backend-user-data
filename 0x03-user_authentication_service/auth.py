@@ -6,6 +6,7 @@ from db import DB
 from user import User
 import bcrypt
 import uuid
+from typing import Union
 
 
 def _hash_password(password: str) -> bytes:
