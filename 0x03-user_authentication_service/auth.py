@@ -52,7 +52,7 @@ class Auth:
             return True
         return False
 
-    def create_session(self, email: str) -> str:
+    def create_session(self, email: str) -> Union[str, None]:
         """takes an email string argument
         and returns the session ID as a string."""
         try:
