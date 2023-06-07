@@ -5,7 +5,7 @@ import bcrypt
 from db import DB
 from user import User
 import bcrypt
-impot uuid
+import uuid
 
 
 def _hash_password(password: str) -> bytes:
