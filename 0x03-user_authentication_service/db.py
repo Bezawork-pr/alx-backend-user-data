@@ -63,6 +63,6 @@ class DB:
             if key not in ur_c:
                 raise ValueError
             else:
-                user.key = value
+                setattr(user, key, value)
                 self._session.commit()
         return None
