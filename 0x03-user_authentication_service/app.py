@@ -81,7 +81,10 @@ def get_reset_password_token() -> str:
     Otherwise, generate a token and respond with a 200"""
     email = request.form.get('email')
     try:
-
+        token = AUTH.get_reset_password_token(email=email)
+    except Exception as UserNotFound:
+        abort(403)
+    return jsonify({"email": email, "reset_token": token})
 
 
 if __name__ == "__main__":
