@@ -71,9 +71,17 @@ def profile() -> str:
     user = AUTH.get_user_from_session_id(session_id=session_id)
     if session_id is None or user is None:
         abort(403)
-    print("Third")
     response = {"email": user.email}
     return jsonify(response), 200
+
+
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def get_reset_password_token() -> str:
+    """If the email is not registered, respond with a 403 status code.
+    Otherwise, generate a token and respond with a 200"""
+    email = request.form.get('email')
+    try:
+
 
 
 if __name__ == "__main__":

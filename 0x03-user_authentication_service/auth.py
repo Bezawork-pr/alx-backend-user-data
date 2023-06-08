@@ -79,3 +79,16 @@ class Auth:
         """ The method takes a single user_id
         integer argument and returns None"""
         self._db.update_user(user_id=user_id, session_id=None)
+
+    def get_reset_password_token(self, email: str) -> str:
+        """Find the user corresponding to the email
+        If the user does not exist, raise a ValueError exception
+        If it exists, generate a UUID and update
+        the user’s reset_token"""
+        try:
+            user = self._db.find_user_by(email=email)
+        except Exception as NotFound:
+            raise ValueError
+        token = uuid.uuid4()
+        self._db.update_user(user_id=user.id, reset_token=token)
+
