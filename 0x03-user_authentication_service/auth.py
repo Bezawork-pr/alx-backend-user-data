@@ -91,4 +91,3 @@ class Auth:
             raise ValueError
         token = uuid.uuid4()
         self._db.update_user(user_id=user.id, reset_token=token)
-
