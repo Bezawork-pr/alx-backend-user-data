@@ -56,7 +56,8 @@ class DB:
 
     def update_user(self, user_id: int, **kwargs) -> None:
         """method will use find_user_by to locate the user to update
-        then Update"""
+        then Update. 
+        """
         user = self.find_user_by(id=user_id)
         ur_c = ['id', 'email', 'hashed_password', 'session_id', 'reset_token']
         for key, value in kwargs.items():
